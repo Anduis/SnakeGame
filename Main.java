@@ -27,7 +27,6 @@ public class Main extends JFrame {
     thread = new Thread(new Movimiento());
     addKeyListener(new KeyListener());
     setSize(gridSize * 20, (gridSize + 6) * 20);
-    System.out.println(gridSize);
     setVisible(true);
     this.setLocationRelativeTo(null);
   }

@@ -66,7 +66,6 @@ public class Board extends JPanel {
     bonusTimer = rand.nextInt(200) + 100;// [100-300]
     alt[0] = -1;
     bonusTimeLeft = rand.nextInt(size / 2) + 3 * size / 4;// [40,60]
-    System.out.println("steps" + bonusTimeLeft);
   }
 
   void addAltFood() {
@@ -104,39 +103,36 @@ public class Board extends JPanel {
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     Dimension d = getSize();
-    int siz = d.width;
     // background
     g.setColor(new Color(145, 191, 59));
-    g.fillRect(0, 0, siz, d.height);
+    g.fillRect(0, 0, d.width, d.height);
     // pixels texture
     g.setColor(new Color(135, 181, 50));
     for (int i = 0; i < d.height; i += 5) {
-      g.drawLine(0, i, siz, i);
+      g.drawLine(0, i, d.width, i);
       g.drawLine(i, 0, i, d.height);
     }
     g.setColor(new Color(45, 60, 21));
     // walls
-    drawCage(g, siz);
+    drawCage(g, d.width);
     // scorebar
-    g.fillRect(0, siz + 10, siz, 10);
-    g.fillRect(0, d.height - 10, siz, 10);
-    g.fillRect(0, siz + 10, 10, d.height - siz);
-    g.fillRect(siz - 10, siz + 15, 10, d.height - siz);
+    g.fillRect(0, d.width + 10, d.width, 10);
+    g.fillRect(0, d.height - 10, d.width, 10);
+    g.fillRect(0, d.width + 10, 10, d.height - d.width);
+    g.fillRect(d.width - 10, d.width + 15, 10, d.height - d.width);
     // title
     g.setFont(new Font("Times New Roman", Font.BOLD, 40));
-    g.drawString("SNAKE", (siz / 2) - 75, siz + 75);
+    drawCenteredText(g, "SNAKE", d.width, d.width + 75);
     // score
     g.setFont(new Font("Courier", Font.BOLD, 20));
-    g.drawString("SCORE: ", 30, siz + 50);
-    g.drawString(String.valueOf(score), 100, siz + 50);
-    g.drawString("HIGHSCORE: ", 30, siz + 70);
-    g.drawString(String.valueOf(highScore), 150, siz + 70);
+    g.drawString("SCORE: " + String.valueOf(score), 30, d.width + 50);
+    g.drawString("HIGHSCORE: " + String.valueOf(highScore), 30, d.width + 70);
     // bonus
-    g.drawString("BONUS: ", siz - 150, siz + 50);
     if (alt[0] != -1) {
-      g.drawString(String.valueOf(bonusTimeLeft + bonusTimer), siz - 60, siz + 50);
-      drawAltFood(g, siz - 60, siz + 65);
-    }
+      g.drawString("BONUS: " + String.valueOf(bonusTimeLeft + bonusTimer), d.width - 150, d.width + 50);
+      drawAltFood(g, d.width - 60, d.width + 65);
+    } else
+      g.drawString("BONUS: ", d.width - 150, d.width + 50);
     // other objects
     for (int x = 0; x < size; x++)
       for (int y = 0; y < size; y++) {
@@ -154,15 +150,20 @@ public class Board extends JPanel {
       }
     // options
     g.setFont(new Font("Courier", Font.BOLD, 30));
-    int v = ((siz + 30) / 2) - (20 * 12);
     if (!hasStarted)
-      g.drawString("PRESS ENTER TO START", v, 200);
+      drawCenteredText(g, "PRESS ENTER TO START", d.width, 200);
     if (isPaused)
-      g.drawString("PAUSED", ((siz + 30) / 2) - (20 * 3), 170);
+      drawCenteredText(g, "PAUSED", d.width, 170);
     if (gameOver)
-      drawGameOverScreen(g, v);
+      drawGameOverScreen(g, d.width);
     if (hasStarted && !isLevelSetted)
-      drawLevelSelector(g, v);
+      drawLevelSelector(g, d.width);
+  }
+
+  int drawCenteredText(Graphics g, String text, int width, int y) {
+    int x = (width - g.getFontMetrics().stringWidth(text)) / 2;
+    g.drawString(text, x, y);
+    return x;
   }
 
   void drawCage(Graphics g, int l) {
@@ -172,26 +173,25 @@ public class Board extends JPanel {
     g.fillRect(0, l - 15, l, 15);
   }
 
-  void drawGameOverScreen(Graphics g, int v) {
+  void drawGameOverScreen(Graphics g, int width) {
     g.setColor(new Color((float) 0.5686, (float) 0.749, (float) 0.2313, (float) 0.5));
-    g.fillRect(v - 10, 140, 520, 160);
     g.setColor(new Color(45, 60, 21));
-    g.drawString("GAME OVER!", v, 170);
+    drawCenteredText(g, "GAME OVER!", width, 170);
     if (highScoreAchieved)
-      g.drawString("HIGH SCORE!!", v, 200);
-    g.drawString("NEW GAME.- PRESS R", v, 230);
-    g.drawString("EXIT.- PRESS ESC", v, 260);
-    g.drawString("CHANGE DIFFICULTY.- PRESS F", v, 290);
+      drawCenteredText(g, "HIGH SCORE!", width, 200);
+    drawCenteredText(g, "NEW GAME.- PRESS R", width, 230);
+    drawCenteredText(g, "EXIT.- PRESS ESC", width, 260);
+    drawCenteredText(g, "CHANGE DIFFICULTY.- PRESS F", width, 290);
   }
 
-  void drawLevelSelector(Graphics g, int v) {
-    g.drawString("CHOOSE SKILL LEVEL:", v, 100);
+  void drawLevelSelector(Graphics g, int width) {
+    drawCenteredText(g, "CHOOSE SKILL LEVEL:", width, 100);
     g.setFont(new Font("Times New Roman", Font.BOLD, 25));
-    g.drawString("1.- I'M TOO YOUNG TO DIE.", v, 150 + 70);
-    g.drawString("2.- HEY, NOT TOO ROUGH.", v, 200 + 70);
-    g.drawString("3.- HURT ME PLENTY.", v, 250 + 70);
-    g.drawString("4.- ULTRA-VIOLENCE.", v, 300 + 70);
-    g.drawString("5.- NIGHTMARE!.", v, 350 + 70);
+    int x = drawCenteredText(g, "1.- I'M TOO YOUNG TO DIE.", width, 150 + 70);
+    g.drawString("2.- HEY, NOT TOO ROUGH.", x, 200 + 70);
+    g.drawString("3.- HURT ME PLENTY.", x, 250 + 70);
+    g.drawString("4.- ULTRA-VIOLENCE.", x, 300 + 70);
+    g.drawString("5.- NIGHTMARE!.", x, 350 + 70);
   }
 
   void drawFood(Graphics g, int x, int y) {
