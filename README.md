@@ -1,3 +1,6 @@
+[![Java](https://img.shields.io/badge/Java-11-orange)](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+[![Version](https://img.shields.io/badge/version-1.0-green.svg)](https://github.com/user/repo/releases)
+
 ### Snake GUI
 
 ---
@@ -31,8 +34,7 @@ Snake, también conocido como la "viborita", es un videojuego simple en el que e
 #### Extras y personalización:
 
 - El juego incluye opciones para seleccionar la dificultad, lo que afecta la velocidad de movimiento y la longitud inicial de la serpiente.
-- Se generan elementos de bonificación de forma aleatoria, los cuales proporcionan beneficios al jugador durante el juego.
-
+- Se generan elementos de bonificación de forma aleatoria, los cuales proporcionan puntos extra al jugador si los alcanza durante una ventana de tiempo variable cada vez.
 - El juego cuenta con diferentes pantallas, como la pantalla de inicio, la pantalla de selección y la pantalla de Game Over, donde el usuario puede tomar decisiones específicas.
 
 #### Cómo ejecutar el juego
