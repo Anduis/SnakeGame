@@ -1,3 +1,6 @@
+[![es](https://img.shields.io/badge/lang-es-yellow.svg)](./README.md)
+[![en](https://img.shields.io/badge/lang-en-red.svg)](./README.en.md)
+
 [![Java](https://img.shields.io/badge/Java-11-orange)](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
 [![Version](https://img.shields.io/badge/version-1.0-green.svg)](https://github.com/user/repo/releases)
 
